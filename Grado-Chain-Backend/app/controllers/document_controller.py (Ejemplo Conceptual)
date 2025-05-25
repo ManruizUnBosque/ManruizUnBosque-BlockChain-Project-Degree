@@ -1,0 +1,29 @@
+from flask import jsonify
+from flask_jwt_extended import jwt_required, get_jwt
+# Asumiendo que tienes un modelo Documento
+# from app.models import Documento, User 
+
+# @document_bp.route('/documento/<int:doc_id>/aprobar', methods=['POST']) # Ejemplo de ruta
+@jwt_required()
+def aprobar_documento_controller(doc_id):
+    claims = get_jwt()
+    user_role = claims.get("role")
+    # user_id = get_jwt_identity() # Si necesitas el ID del usuario
+
+    if user_role not in ['director_gestor', 'vicerrectoria']:
+        return jsonify({"status": "error", "message": "No tienes permiso para aprobar documentos."}), 403
+
+    # Lógica para encontrar el documento por doc_id
+    # documento = Documento.query.get(doc_id)
+    # if not documento:
+    #     return jsonify({"status": "error", "message": "Documento no encontrado"}), 404
+
+    # Lógica para aprobar el documento...
+    # documento.estado = "Aprobado"
+    # db.session.commit()
+    
+    # Registrar evento en trazabilidad...
+    # registrar_evento_documento_controller(documento.hash_sha256, "APROBADO_POR_DIRECTOR", user_id, {"comentario": "Documento aprobado"})
+
+
+    return jsonify({"status": "success", "message": f"Documento {doc_id} aprobado por {user_role}."}), 200
