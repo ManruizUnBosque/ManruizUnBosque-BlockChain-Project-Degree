@@ -1,0 +1,505 @@
+{
+    "info": {
+      "_postman_id": "d8f9a5c1-1b3a-4f8e-9a1b-2c7d6e5f4g3h",
+      "name": "GradoChain API Collection",
+      "description": "Colección de endpoints para la API de GradoChain.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "File API",
+        "description": "Endpoints para la gestión de archivos.",
+        "_postman_id": "folder_file_api",
+        "item": [
+          {
+            "name": "Upload Document",
+            "_postman_id": "request_upload_document",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "formdata",
+                "formdata": [
+                  {
+                    "key": "file",
+                    "type": "file",
+                    "description": "El archivo a subir (pdf, doc, docx, txt, png, jpg, jpeg, gif)."
+                  }
+                ]
+              },
+              "url": {
+                "raw": "{{base_url}}/api/upload_document",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "upload_document"
+                ]
+              },
+              "description": "Sube un archivo al servidor. Guarda el archivo, calcula su hash SHA-256, lo guarda en la base de datos y registra un evento de 'CREACION_REGISTRO' en el stream 'trazabilidad_documentos' de MultiChain."
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Stream API",
+        "description": "Endpoints para interactuar con los streams de MultiChain.",
+        "_postman_id": "folder_stream_api",
+        "item": [
+          {
+            "name": "List Streams",
+            "_postman_id": "request_list_streams",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/streams",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "streams"
+                ]
+              },
+              "description": "Obtiene una lista de todos los streams disponibles en el nodo MultiChain."
+            },
+            "response": []
+          },
+          {
+            "name": "Publish to Stream",
+            "_postman_id": "request_publish_to_stream",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"data\": \"Contenido de ejemplo para publicar\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/publish/:stream_name",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "publish",
+                  ":stream_name"
+                ],
+                "variable": [
+                  {
+                    "key": "stream_name",
+                    "value": "mi_stream",
+                    "description": "Nombre del stream donde publicar."
+                  }
+                ]
+              },
+              "description": "Publica datos en un stream específico. Los datos se codifican en hexadecimal antes de enviarlos a MultiChain. Guarda la publicación en la base de datos y genera un código QR para ver la publicación."
+            },
+            "response": []
+          },
+          {
+            "name": "Get Publications from DB",
+            "_postman_id": "request_get_publications_db",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/publications/:stream_name",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "publications",
+                  ":stream_name"
+                ],
+                "variable": [
+                  {
+                    "key": "stream_name",
+                    "value": "mi_stream",
+                    "description": "Nombre del stream del cual obtener las publicaciones."
+                  }
+                ]
+              },
+              "description": "Obtiene las publicaciones de un stream específico, consultando la base de datos local."
+            },
+            "response": []
+          },
+          {
+            "name": "View Publication by TXID",
+            "_postman_id": "request_view_publication_txid",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/view_publication/:txid",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "view_publication",
+                  ":txid"
+                ],
+                "variable": [
+                  {
+                    "key": "txid",
+                    "value": "txid_de_ejemplo",
+                    "description": "El ID de transacción (txid) de la publicación."
+                  }
+                ]
+              },
+              "description": "Muestra los detalles de una publicación específica (desde la DB) usando su TXID. Esta es la URL que se codifica en los códigos QR."
+            },
+            "response": []
+          },
+          {
+            "name": "Get Stream History from MultiChain",
+            "_postman_id": "request_get_stream_history_mc",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/stream/:stream_name/history",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "stream",
+                  ":stream_name",
+                  "history"
+                ],
+                "variable": [
+                  {
+                    "key": "stream_name",
+                    "value": "mi_stream",
+                    "description": "Nombre del stream del cual obtener el historial."
+                  }
+                ]
+              },
+              "description": "Obtiene el historial de ítems para un stream directamente desde MultiChain (liststreamitems), decodificando los datos si es posible."
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Auth API",
+        "description": "Endpoints para autenticación y gestión de usuarios.",
+        "_postman_id": "folder_auth_api",
+        "item": [
+          {
+            "name": "Register User",
+            "_postman_id": "request_register_user",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"nuevo_usuario\",\n    \"email\": \"usuario@example.com\",\n    \"password\": \"micontraseña123\",\n    \"role\": \"estudiante\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/auth/register",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "auth",
+                  "register"
+                ]
+              },
+              "description": "Registra un nuevo usuario en el sistema. Roles pueden ser 'estudiante', 'docente', 'director_gestor', 'vicerrectoria'."
+            },
+            "response": []
+          },
+          {
+            "name": "Login User",
+            "_postman_id": "request_login_user",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"nuevo_usuario\",\n    \"password\": \"micontraseña123\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/auth/login",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "auth",
+                  "login"
+                ]
+              },
+              "description": "Inicia sesión de un usuario y devuelve tokens JWT de acceso y refresco."
+            },
+            "response": []
+          },
+          {
+            "name": "Logout User",
+            "_postman_id": "request_logout_user",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt_access_token}}",
+                  "type": "text",
+                  "description": "Token de acceso JWT."
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/auth/logout",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "auth",
+                  "logout"
+                ]
+              },
+              "description": "Cierra la sesión del usuario. Requiere JWT. (La implementación real del logout del lado del servidor puede variar, ej. denylist)."
+            },
+            "response": []
+          },
+          {
+            "name": "Refresh Token",
+            "_postman_id": "request_refresh_token",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt_refresh_token}}",
+                  "type": "text",
+                  "description": "Token de refresco JWT."
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/auth/refresh",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "auth",
+                  "refresh"
+                ]
+              },
+              "description": "Refresca un token de acceso JWT utilizando un token de refresco válido."
+            },
+            "response": []
+          },
+          {
+            "name": "Protected Example",
+            "_postman_id": "request_protected_example",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt_access_token}}",
+                  "type": "text",
+                  "description": "Token de acceso JWT."
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/auth/protected_example",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "auth",
+                  "protected_example"
+                ]
+              },
+              "description": "Ruta de ejemplo protegida por JWT para verificar la autenticación."
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Trazabilidad API",
+        "description": "Endpoints para la trazabilidad de documentos en MultiChain.",
+        "_postman_id": "folder_trazabilidad_api",
+        "item": [
+          {
+            "name": "Get Document History",
+            "_postman_id": "request_get_document_history",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/trazabilidad/documento/:documento_id",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "trazabilidad",
+                  "documento",
+                  ":documento_id"
+                ],
+                "variable": [
+                  {
+                    "key": "documento_id",
+                    "value": "hash_sha256_del_documento",
+                    "description": "ID del documento (usualmente el hash SHA256) para consultar su historial en el stream 'trazabilidad_documentos'."
+                  }
+                ]
+              },
+              "description": "Obtiene el historial de eventos de trazabilidad para un documento específico, consultando el stream 'trazabilidad_documentos' por la clave (documento_id)."
+            },
+            "response": []
+          },
+          {
+            "name": "Register Document Event",
+            "_postman_id": "request_register_document_event",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"nuevo_estado\": \"REVISADO_POR_DOCENTE\",\n    \"usuario_id\": \"id_del_docente_o_sistema\",\n    \"detalles_adicionales\": {\n        \"comentario\": \"Revisión inicial completada.\",\n        \"fecha_revision\": \"2023-10-27T10:00:00Z\"\n    }\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/trazabilidad/documento/:documento_id/evento",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "trazabilidad",
+                  "documento",
+                  ":documento_id",
+                  "evento"
+                ],
+                "variable": [
+                  {
+                    "key": "documento_id",
+                    "value": "hash_sha256_del_documento",
+                    "description": "ID del documento (hash SHA256) para el cual registrar un nuevo evento."
+                  }
+                ]
+              },
+              "description": "Registra un nuevo evento (ej. cambio de estado, revisión, aprobación) para un documento existente en el stream 'trazabilidad_documentos'."
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Document API (Conceptual)",
+        "description": "Endpoints conceptuales para la gestión de documentos. La activación de estas rutas depende del registro del blueprint 'document_bp'.",
+        "_postman_id": "folder_document_api_conceptual",
+        "item": [
+          {
+            "name": "Aprobar Documento (Conceptual)",
+            "_postman_id": "request_aprobar_documento_conceptual",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{jwt_access_token}}",
+                  "type": "text",
+                  "description": "Token de acceso JWT. Roles permitidos: 'director_gestor', 'vicerrectoria'."
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/documento/:doc_id/aprobar",
+                "host": [
+                  "{{base_url}}"
+                ],
+                "path": [
+                  "api",
+                  "documento",
+                  ":doc_id",
+                  "aprobar"
+                ],
+                "variable": [
+                  {
+                    "key": "doc_id",
+                    "value": "123",
+                    "description": "ID numérico del documento a aprobar."
+                  }
+                ]
+              },
+              "description": "CONCEPTUAL: Aprueba un documento. Esta ruta se basa en 'app/controllers/document_controller.py (Ejemplo Conceptual)'. Requiere que 'document_bp' esté definido y registrado con un prefijo como '/api'. El usuario debe tener el rol 'director_gestor' o 'vicerrectoria'."
+            },
+            "response": []
+          }
+        ]
+      }
+    ],
+    "event": [],
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "http://localhost:5000",
+        "type": "string"
+      },
+      {
+        "key": "jwt_access_token",
+        "value": "",
+        "type": "string",
+        "description": "Token de acceso JWT obtenido tras el login."
+      },
+      {
+        "key": "jwt_refresh_token",
+        "value": "",
+        "type": "string",
+        "description": "Token de refresco JWT obtenido tras el login."
+      }
+    ]
+  }

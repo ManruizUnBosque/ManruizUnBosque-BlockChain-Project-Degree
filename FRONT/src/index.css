@@ -1,0 +1,113 @@
+\n:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark; /* Permite que el navegador aplique estilos por defecto según el tema */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos base para el modo claro (predeterminado) */
+body {
+  margin: 0;
+  background-color: #f4f7f6; /* Un color de fondo base suave para modo claro */
+  color: #333; /* Color de texto principal para modo claro */
+  display: flex; /* Para centrar contenido si es necesario o para layouts de página completa */
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff; /* Un color de enlace base */
+  text-decoration: none; /* Quitar subrayado por defecto */
+}
+a:hover {
+  color: #535bf2; /* Color de enlace al pasar el mouse */
+}
+
+h1 {
+  font-size: 2.5em; /* Ajustado para una mejor jerarquía visual */
+  line-height: 1.2;
+  margin-bottom: 0.5em; /* Espaciado por defecto para encabezados */
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+}
+
+/* Estilos específicos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+  }
+  body {
+    background-color: #1a1a1a; /* Fondo más oscuro para el body en modo oscuro */
+    color: rgba(255, 255, 255, 0.87);
+  }
+  a {
+    color: #747bff; /* Ajustar color de enlace para modo oscuro si es necesario */
+  }
+  a:hover {
+    color: #535bf2;
+  }
+  button {
+    background-color: #3a3a3a; /* Color de botón para modo oscuro */
+    color: rgba(255, 255, 255, 0.87);
+  }
+  button:hover {
+    border-color: #646cff;
+  }
+}
+
+/* Estilos para modo claro (si no se detecta preferencia o es light) */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  body {
+    background-color: #f4f7f6;
+    color: #333;
+  }
+  a {
+    color: #646cff;
+  }
+  a:hover {
+    color: #535bf2;
+  }
+  button {
+    background-color: #e9e9ed; /* Un color de botón más suave para modo claro */
+    color: #213547;
+  }
+  button:hover {
+    border-color: #646cff;
+    background-color: #dcdce0;
+  }
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color; /* Mantener el outline de foco */
+  }
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
